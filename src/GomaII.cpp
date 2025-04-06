@@ -246,13 +246,17 @@ struct GomaIIExtLed : SvgLight {
 					fillColor = ((int)(255) << 24) + (((int)(backgroundGrey * 255)) << 16) + (((int)(backgroundGrey * 255)) << 8) + (int)(backgroundGrey * 255);
 				}
 
+				#ifndef METAMODULE
 				for (auto s = sw->svg->handle->shapes; s; s = s->next) {
 					s->fill.color = fillColor;
 					s->fill.type = NSVG_PAINT_COLOR;
 				}
+				#endif
 
 				nvgGlobalCompositeBlendFunc(args.vg, NVG_ONE_MINUS_DST_COLOR, NVG_ONE);
+				#ifndef METAMODULE
 				svgDraw(args.vg, sw->svg->handle);
+				#endif
 				drawHalo(args);
 			}
 		}

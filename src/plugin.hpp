@@ -103,24 +103,32 @@ struct BlackNoiseLed : TSvgLight<RedGreenBlueLight> {
 				if (backgroundFactor > 0.f) {
 					NVGcolor c = nvgRGBf(backgroundFactor, backgroundFactor, backgroundFactor);
 
+					#ifndef METAMODULE
 					for (auto s = sw->svg->handle->shapes; s; s = s->next) {
 						s->fill.color = ((int)(c.a * 255) << 24) + (((int)(c.b * 255)) << 16) + (((int)(c.g * 255)) << 8) + (int)(c.r * 255);
 						s->fill.type = NSVG_PAINT_COLOR;
 					}
+					#endif
 
 					nvgGlobalCompositeBlendFunc(args.vg, NVG_ONE_MINUS_DST_COLOR, NVG_ONE);
+					#ifndef METAMODULE
 					svgDraw(args.vg, sw->svg->handle);
+					#endif
 				}
 
 				// main RGB color
 				const int fillColor = ((int)(color.a * 255) << 24) + (((int)(color.b * 255)) << 16) + (((int)(color.g * 255)) << 8) + (int)(color.r * 255);
+				#ifndef METAMODULE
 				for (auto s = sw->svg->handle->shapes; s; s = s->next) {
 					s->fill.color = fillColor;
 					s->fill.type = NSVG_PAINT_COLOR;
 				}
-
+				#endif
+				
 				nvgGlobalCompositeBlendFunc(args.vg, NVG_ONE_MINUS_DST_COLOR, NVG_ONE);
+				#ifndef METAMODULE
 				svgDraw(args.vg, sw->svg->handle);
+				#endif
 				drawHalo(args);
 			}
 		}
