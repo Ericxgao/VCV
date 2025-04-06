@@ -79,7 +79,11 @@ struct Cosmos : Module {
 
 	// oversampling
 	chowdsp::VariableOversampling<6, float_4> oversampler[OUTPUTS_LEN][PORT_MAX_CHANNELS / 4]; 	// uses a 2*6=12th order Butterworth filter
-	int oversamplingIndex = 2; 	// default is 2^oversamplingIndex == x4 oversampling
+	#ifdef METAMODULE
+	int oversamplingIndex = 0; 	// default is 1 for MM to save on CPU
+	#else
+	int oversamplingIndex = 2; 	// default is 2^oversamplingIndex == x2 oversampling
+	#endif
 	bool oversampleLogicOutputs = true;
 	bool oversampleLogicGateOutputs = false;
 	bool oversampleLogicTriggerOutputs = false;
